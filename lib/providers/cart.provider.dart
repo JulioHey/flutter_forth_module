@@ -18,7 +18,7 @@ class CartProvider with ChangeNotifier {
   Map<String, CartItem> _items = {};
 
   Map<String, CartItem> get items {
-    return {...items};
+    return {..._items};
   }
 
   void addItem({
@@ -58,7 +58,7 @@ class CartProvider with ChangeNotifier {
     var total = 0.0;
 
     _items.forEach((key, cartItem) {
-      total += cartItem.price;
+      total += cartItem.price * cartItem.quantity;
     });
 
     return total;

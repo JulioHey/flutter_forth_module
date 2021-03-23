@@ -7,6 +7,7 @@ import './screens/cart.screen.dart';
 
 import './providers/products.provider.dart';
 import './providers/cart.provider.dart';
+import './providers/orders.provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -22,6 +23,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
          create: (_) => CartProvider(),
+        ),
+        ChangeNotifierProvider(
+         create: (_) => OrdersProvider(),
         ),
       ],
       // value:ProductsProvider(),

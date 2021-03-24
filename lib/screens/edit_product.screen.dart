@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../providers/product.provider.dart';
+
 class EditProductScreen extends StatefulWidget {
   static const routeName = '/edit-product';
   
@@ -12,6 +14,14 @@ class _EditProductState extends State<EditProductScreen> {
   final _descriptionFocusNode = FocusNode();
   final _imageUrlFocusNode = FocusNode();
   final _imageUrlController = TextEditingController();
+  final _form = GlobalKey<FormState>();
+  var _editedProduct = Product(
+    id: null,
+    title: '',
+    description: '',
+    imageUrl: '',
+    price: 0,
+  );
 
   @override
   void initState() {
@@ -35,15 +45,32 @@ class _EditProductState extends State<EditProductScreen> {
     }
   }
 
+  void _saveForm() {
+    _form.currentState.save();
+    print(_editedProduct.title);
+    print(_editedProduct.price);
+    print(_editedProduct.description);
+    print(_editedProduct.imageUrl);
+  }
+
   @override
   Widget build (BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit Product'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.save
+            ),
+            onPressed: _saveForm,
+          )
+        ]
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Form(
+          key: _form,
           child: ListView(
             children: <Widget>[
               TextFormField(
@@ -54,6 +81,15 @@ class _EditProductState extends State<EditProductScreen> {
                 onFieldSubmitted: (_) {
                   FocusScope.of(context).requestFocus(
                     _priceFocusNode
+                  );
+                },
+                onSaved: (value) {
+                  _editedProduct = Product(
+                    id: null,
+                    title: value,
+                    description: _editedProduct.description,
+                    imageUrl:  _editedProduct.imageUrl,
+                    price:  _editedProduct.price,
                   );
                 }
               ),
@@ -69,6 +105,15 @@ class _EditProductState extends State<EditProductScreen> {
                     _descriptionFocusNode
                   );
                 },
+                onSaved: (value) {
+                  _editedProduct = Product(
+                    id: null,
+                    title: _editedProduct.title,
+                    description: _editedProduct.description,
+                    imageUrl:  _editedProduct.imageUrl,
+                    price:  double.parse(value),
+                  );
+                }
               ),
               TextFormField(
                 decoration: const InputDecoration(
@@ -79,6 +124,15 @@ class _EditProductState extends State<EditProductScreen> {
                 focusNode: _descriptionFocusNode,
                 onFieldSubmitted: (_) {
                 },
+                onSaved: (value) {
+                  _editedProduct = Product(
+                    id: null,
+                    title: _editedProduct.title,
+                    description: value,
+                    imageUrl:  _editedProduct.imageUrl,
+                    price:  _editedProduct.price,
+                  );
+                }
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -114,6 +168,18 @@ class _EditProductState extends State<EditProductScreen> {
                       keyboardType: TextInputType.url,
                       textInputAction: TextInputAction.done,
                       controller: _imageUrlController,
+                      onFieldSubmitted: (_) {
+                        _saveForm();
+                      },
+                      onSaved: (value) {
+                        _editedProduct = Product(
+                          id: null,
+                          title: _editedProduct.title,
+                          description: _editedProduct.description,
+                          imageUrl:  value,
+                          price:  _editedProduct.price,
+                        );
+                      }
                     )
                   ),
                 ]

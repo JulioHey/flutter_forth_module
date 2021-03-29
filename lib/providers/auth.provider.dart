@@ -8,9 +8,16 @@ class AuthProvider extends ChangeNotifier {
   DateTime _expiryDate;
   String _userId;
 
-  Future<void> signup(String email, String password) async {
-    final url = Uri.parse('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBCT3FQjsIRT59Jp1Oh-0WhckXImtlE6sk');
+  Future<void> signUp(String email, String password) async {
+    await _authenticate(email, password, 'signUp');
+  }
 
+  Future<void> singInWithPassword(String email, String password) async {
+    await _authenticate(email, password, "signInWithPassword");
+  }
+
+  Future<void> _authenticate(String email, String password, String method) async {
+    final url = Uri.parse('https://identitytoolkit.googleapis.com/v1/accounts:$method?key=AIzaSyBCT3FQjsIRT59Jp1Oh-0WhckXImtlE6sk');
     Map<String, String> headers = {
         'Content-Type': 'application/json;charset=UTF-8',
         'Charset': 'utf-8'
@@ -31,7 +38,6 @@ class AuthProvider extends ChangeNotifier {
     } catch(error) {
       print(error);
     }
-
   }
 
 }

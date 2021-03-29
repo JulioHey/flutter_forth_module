@@ -113,13 +113,13 @@ class _AuthCardState extends State<AuthCard> {
     });
     if (_authMode == AuthMode.Login) {
       // Log user in
-        await Provider.of<AuthProvider>(context, listen: false).signup(
+        await Provider.of<AuthProvider>(context, listen: false).singInWithPassword(
         _authData['email'],
         _authData['password']
       );
     } else {
       // Sign user up
-      await Provider.of<AuthProvider>(context, listen: false).signup(
+      await Provider.of<AuthProvider>(context, listen: false).signUp(
         _authData['email'],
         _authData['password']
       );

@@ -27,10 +27,11 @@ class MyApp extends StatelessWidget {
           create: (_) => AuthProvider()
         ),
         ChangeNotifierProxyProvider<AuthProvider, ProductsProvider>(
-          create: (_) => ProductsProvider('', []),
+          create: (_) => ProductsProvider('', [], ''),
           update: (ctx, authProvider, previousProducts) => ProductsProvider(
             authProvider.token,
             previousProducts.items == null ? [] : previousProducts.items,
+            authProvider.userId,
           ),
         ),
         ChangeNotifierProvider(

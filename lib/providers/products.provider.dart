@@ -298,22 +298,20 @@ class ProductsProvider with ChangeNotifier {
       
       final favoritesResponse = await http.get(url);
 
-      final favoriteData = json.decode(favoritesResponse.body);
+      final favoriteData = json.decode(favoritesResponse.body) as Map<String, dynamic>;
 
       final List<Product> loadedProducts = [];
-      
       extractedData.forEach((prodId, prodData) {
-        
-        
         loadedProducts.add(Product(
           id: prodId,
           title: prodData['title'],
           description: prodData['description'],
           price: prodData['price'],
-          isFavorite: favoriteData == null ? false : favoriteData[prodId] ?? false,
+          isFavorite: favoriteData == null ? false : favoriteData['$prodId'] ?? false,
           imageUrl: prodData['imageUrl'],
         ));
       });
+
       _items = loadedProducts;
       notifyListeners();
     } catch (error) {

@@ -6,6 +6,8 @@ import '../screens/user_products.screen.dart';
 
 import '../providers/auth.provider.dart';
 
+import '../helpers/custom_route.dart';
+
 class AppDrawer extends StatelessWidget {
   @override
   Widget build (BuildContext context) {
@@ -35,8 +37,11 @@ class AppDrawer extends StatelessWidget {
             ),
             title: const Text('Orders'),
             onTap: () {
-              Navigator.of(context).pushReplacementNamed(
-                OrdersScreen.routeName
+              // Navigator.of(context).pushReplacementNamed(
+              //   OrdersScreen.routeName
+              // );
+              Navigator.of(context).pushReplacement(
+                CustomRoute(builder: (ctx) => OrdersScreen())
               );
             }
           ),
